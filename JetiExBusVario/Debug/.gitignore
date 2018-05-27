@@ -1,0 +1,10 @@
+/BMP280.d
+/JetiExBusProtocol.d
+/JetiExBusSerial.d
+/objects.mk
+/sources.mk
+/subdir.mk
+/JetiExProtocolBuf.d
+/MS5611.d
+/VarioSensor.d
+/main.d

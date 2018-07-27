@@ -152,7 +152,9 @@ struct {
 
 
 unsigned long lastTime = 0;
+
 unsigned long lastTimeCapacity = 0;
+unsigned long lastTimeCapacityAdd = 0;
 uint8_t currentSensor = DEFAULT_CURRENT_SENSOR;
 uint8_t capacityMode = DEFAULT_CAPACITY_MODE;
 bool enableRx1 = DEFAULT_ENABLE_Rx1;
@@ -166,7 +168,8 @@ const float factorVoltageDivider[] = { float(voltageInputR1[0]+voltageInputR2[0]
                                        float(voltageInputR1[4]+voltageInputR2[4])/voltageInputR2[4],
                                        float(voltageInputR1[5]+voltageInputR2[5])/voltageInputR2[5],
                                        float(voltageInputR1[6]+voltageInputR2[6])/voltageInputR2[6],
-                                       float(voltageInputR1[7]+voltageInputR2[7])/voltageInputR2[7]  };
+                                       float(voltageInputR1[7]+voltageInputR2[7])/voltageInputR2[7],
+									   float(voltageInputR1[8]+voltageInputR2[7])/voltageInputR2[8]};
 
 const float timefactorCapacityConsumption = (1000.0/MEASURING_INTERVAL*60*60)/1000;
 float capacityConsumption = 0;
@@ -263,6 +266,7 @@ void setup()
 	}
 	if (EEPROM.read(5) != 0xFF) {
 		capacityMode = EEPROM.read(5);
+	}
 
 #endif
 
@@ -288,6 +292,15 @@ void setup()
 #ifdef SUPPORT_GPS
 		// init GPS
 		gpsSerial.begin(GPSBaud);
+//		delay(100);
+//		gpsSerial.println("$PMTK251,115200*1F");
+//		delay(500);
+//		gpsSerial.begin(115200);
+// or $PMTK251,57600*2C  $PMTK251,38400*27  $PMTK251,19200*22  $PMTK251,14400*29
+// Checksums http://www.hhhh.org/wiml/proj/nmeaxor.html
+// MiniGPS GUI http://docs.mirifica.eu/GlobalTop_Technology/tools/MiniGPS/MediaTek/
+// GPS chip resets to 9600 after power up
+// NMEA update rate in ms $PMTK220,1000*1F  $PMTK220,200*2C   $PMTK220,100*2F
 #endif
 
 
@@ -372,21 +385,37 @@ void setup()
 	   //Karl start
 	   setup();
 	   char buf[30];
-
+	   float testCurrent;
+	   static uint8_t previous_motor = 0;
+	   static unsigned long lastLoop = micros();
+	   static unsigned long elapsedmicros = 0;
+	   testCurrent = (analogRead(CURRENT_PIN) / 1023.0) * V_REF; //reads zero value current
 	   while(1) {	//replaces "loop" in Arduino code, fast loop reading climb etc
 		   // channel data
-		   if (false)   //comment to see channel data
-			   // if ( exBus.HasNewChannelData() ) //remove comment to see channel data
+		   //if (false)   //comment to see channel data
+		   static uint8_t motor_on;
+
+		   if ( jetiEx.HasNewChannelData() ) //remove comment to see channel data
 		   {
-			   int i;
+/*			   int i;
 			   for (i = 0; i < jetiEx.GetNumChannels(); i++)
 			   {
 				   sprintf(buf, "chan-%d: %d", i, jetiEx.GetChannel(i));
 				   Serial.println(buf);
 			   }
+		   	   if
+*/
+			   if (jetiEx.GetChannel(7) > 8100) //read channel 7 (switch SE, motor ) = Servo channel 8, off = 8080
+				   motor_on = 1;
+			   else
+				   motor_on = 0;
 		   }
+		   float testVoltage;
 
-
+		   //testVoltage = (analogRead(VZCR_PIN) / 1023.0) * V_REF; //in mV, offset reference from chip
+		   //testCurrent = (analogRead(CURRENT_PIN) / 1023.0) * V_REF;
+		 //  Serial.printf("VCZR (mV) %8.1f  %8.1f", testVoltage, testCurrent);
+		 //  Serial.println();
 
 		   static long uRelAltitude = 0;
 		   static long uAbsAltitude = 0;
@@ -415,6 +444,17 @@ void setup()
 			   avTemp = 0;
 			   avAltitude = 0;
 			   numVario = 0;
+			   while(gpsSerial.available() )
+			   {
+				   char c = gpsSerial.read();
+				   //Serial.print(c);
+				   if(gps.encode(c)){
+					   break;
+				   }else{
+					   //return ;
+				   }
+			   }
+
 		   }
 
 		   if (variosensor.GetClimb(&uVario, pressureSensor.smoothingValue, pressureSensor.normpress)) {
@@ -455,30 +495,65 @@ void setup()
 			   }else{
 				   ampOffset = ACS_B_offset;
 			   }
+			   if (currentSensor == ACS709_35BB){
+				   ampOffset = ACS_B_offset;
+				   ampOffset = testCurrent;
+				   //ampOffset = (analogRead(VZCR_PIN) / 1023.0) * V_REF; //in mV, offset reference from chip
+
+			   }
 
 			   float mVanalogIn = (analogRead(CURRENT_PIN) / 1023.0) * V_REF; // mV
-			   float cuAmp = (mVanalogIn - ampOffset) / mVperAmp[currentSensor-1];
+			   //float cuAmp = (mVanalogIn - ampOffset) / mVperAmp[currentSensor-1];
+			   float cuAmp = (ampOffset - mVanalogIn) / mVperAmp[currentSensor-1]; //reverse polarity for Sharon
+
+
+			   cuAmp *= float(motor_on); // measure current only if motor is on
 			   if (currentSensor > APM25_A){
 				   cuAmp *= 5000.0/V_REF;
 			   }
 
+			   //Serial.printf("Current, mv/Amp %8.1f, %3d %3d ", cuAmp, mVperAmp[currentSensor-1] , currentSensor-1);
+			   //Serial.println();
+
 			   jetiEx.SetSensorValue( ID_CURRENT, cuAmp*10);
 
-			   // Capacity consumption
-			   capacityConsumption += cuAmp/timefactorCapacityConsumption;
-			   jetiEx.SetSensorValue( ID_CAPACITY, capacityConsumption);
+			   if (motor_on) {
+ 				   if (previous_motor == 0) {
+  					   elapsedmicros = micros(); //start clock
+  					   previous_motor = 1;
+  					   lastLoop = micros();
+  				   }
 
+  				   if ((micros() - lastLoop) > 100000) {
+  					 capacityConsumption += cuAmp * float(micros()-lastLoop)/1000000.0*0.277777777;
+  					 lastLoop = micros();
+  				   }
+
+  			   }
+  			   else {
+  				   if (previous_motor) {
+  					   previous_motor = 0;
+  					   //Serial.printf("Elapsed seconds, consumption %8.1f %8.1f ", float(micros()- elapsedmicros)/1000000.0, capacityConsumption);
+  					   //Serial.println();
+  				   }
+  			   }
+
+
+
+			   //Serial.printf("Looptime [ms]  %8.2f ",float( micros()-lastLoop));
+			   //Serial.println();
+
+			   jetiEx.SetSensorValue( ID_CAPACITY, capacityConsumption);
 			   // save capacity and voltage to eeprom
 			   if(capacityMode > startup && (millis() - lastTimeCapacity) > CAPACITY_SAVE_INTERVAL){
 				   if(cuAmp <= MAX_CUR_TO_SAVE_CAPACITY){
 					   int eeAddress = EEPROM_ADRESS_CAPACITY;
 					   EEPROM.put(eeAddress, capacityConsumption);
 					   eeAddress += sizeof(float);
-					   EEPROM.put(eeAddress, cuVolt);
+					   EEPROM.put(eeAddress, cuVolt);;
 				   }
 				   lastTimeCapacity = millis();
 			   }
-
 			   // Power
 			   jetiEx.SetSensorValue( ID_POWER, cuAmp*cuVolt);
 		   }//if currentSensor
@@ -564,16 +639,7 @@ void setup()
 			   unsigned long distToHome;
 
 			   // read data from GPS
-			   while(gpsSerial.available() )
-			   {
-				   char c = gpsSerial.read();
-				   //	Serial.print(c);
-				   if(gps.encode(c)){
-					   break;
-				   }else{
-					   //return ;
-				   }
-			   }
+
 
 
 			   if (gps.location.isValid() && gps.location.age() < 2000) { // if Fix

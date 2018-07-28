@@ -177,7 +177,7 @@ enum {
 
 // suported voltage sensors 
 enum {
-  ACS709_17V,
+  ACS709_20V,
   AttoPilot_45V,
   AttoPilot_90V,
   AttoPilot_180V,
@@ -265,26 +265,26 @@ const uint16_t Atto_APM_offset = 0;
 const uint16_t ACS_B_offset = V_REF/2; //bi-directional offset in mV ( V_REF / 2)
 const uint16_t ACS_U_offset = V_REF/8.33;  //uni-directional offset in mV ( V_REF / 8.33)
 
-                         //   mV/Amp @5V            sensor type
-const uint8_t mVperAmp[] =  { 
-							  28,				// ACS709_35BB
-							  73,               // AttoPilot 45A
-                              37,               // AttoPilot 90A
-                              18,               // AttoPilot 180A
-                              73,               // APM 2.5 90A
+                         //   mV/Amp @5V           sensor type
+const float mVperAmp[] =  { 					//changed to float because of 18.5mV/A for ACS709 @ 3.3V
+							  18.5,				  // ACS709_35BB @3.3V (28 @ 5V)
+							  73.0,               // AttoPilot 45A
+                              37.0,               // AttoPilot 90A
+                              18.0,               // AttoPilot 180A
+                              73.0,               // APM 2.5 90A
                               #if V_REF >= 4500
-                              185,              // ACS712-05
-                              100,              // ACS712-20
-                               66,              // ACS712-30
+                              185.0,              // ACS712-05
+                              100.0,              // ACS712-20
+                               66.0,              // ACS712-30
                               #endif
-                               40,              // ACS758-50B
-                               20,              // ACS758-100B
-                               13,              // ACS758-150B
-                               10,              // ACS758-200B 
-                               60,              // ACS758-50U
-                               40,              // ACS758-100U
-                               27,              // ACS758-150U
-                               20              // ACS758-200U
+                               40.0,              // ACS758-50B
+                               20.0,              // ACS758-100B
+                               13.0,              // ACS758-150B
+                               10.0,              // ACS758-200B
+                               60.0,              // ACS758-50U
+                               40.0,              // ACS758-100U
+                               27.0,              // ACS758-150U
+                               20.0              // ACS758-200U
 
                              };
 

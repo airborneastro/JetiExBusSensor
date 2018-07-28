@@ -134,7 +134,7 @@ VarioSensor variosensor;
   #error unsupported supply voltage
 #endif
 
-#define MEASURING_INTERVAL        150         //ms
+#define MEASURING_INTERVAL        150         //ms NOT USED
 #define EEPROM_ADRESS_CAPACITY    20
 
 
@@ -504,7 +504,7 @@ void setup()
 
 			   float mVanalogIn = (analogRead(CURRENT_PIN) / 1023.0) * V_REF; // mV
 			   //float cuAmp = (mVanalogIn - ampOffset) / mVperAmp[currentSensor-1];
-			   float cuAmp = (ampOffset - mVanalogIn) / mVperAmp[currentSensor-1]; //reverse polarity for Sharon
+			   float cuAmp = (ampOffset - mVanalogIn) / mVperAmp[currentSensor-1]; //reverse polarity for Sharon wiring
 
 
 			   cuAmp *= float(motor_on); // measure current only if motor is on
@@ -524,7 +524,7 @@ void setup()
   					   lastLoop = micros();
   				   }
 
-  				   if ((micros() - lastLoop) > 100000) {
+  				   if ((micros() - lastLoop) > 100000) { //needed because Teensy runs at full speed, loop does not wait "MEASURING_INTERVAL
   					 capacityConsumption += cuAmp * float(micros()-lastLoop)/1000000.0*0.277777777;
   					 lastLoop = micros();
   				   }

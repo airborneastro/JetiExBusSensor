@@ -8506,7 +8506,7 @@ END GROUP
 LOAD /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtend.o
 LOAD /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtn.o
 
-.text           0x0000000000000000    0x1655c
+.text           0x0000000000000000    0x16584
                 0x0000000000000000                . = 0x0
  *(.vectors)
  .vectors       0x0000000000000000      0x198 ./teensy3/mk20dx128.o
@@ -10493,135 +10493,135 @@ LOAD /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.
                 0x0000000000015b1c      0x2b2 ./main.o
  *fill*         0x0000000000015dce        0x2 ff
  .rodata._ZL8mVperAmp
-                0x0000000000015dd0        0xd ./main.o
- *fill*         0x0000000000015ddd        0x3 ff
+                0x0000000000015dd0       0x34 ./main.o
  .rodata._ZL20factorVoltageDivider
-                0x0000000000015de0       0x24 ./main.o
+                0x0000000000015e04       0x24 ./main.o
  .rodata._ZL8menuText
-                0x0000000000015e04       0xbb ./main.o
- *fill*         0x0000000000015ebf        0x1 ff
+                0x0000000000015e28       0xbb ./main.o
+ *fill*         0x0000000000015ee3        0x1 ff
  .rodata._ZL15aboutScreenText
-                0x0000000000015ec0       0x11 ./main.o
- *fill*         0x0000000000015ed1        0x3 ff
+                0x0000000000015ee4       0x11 ./main.o
+ *fill*         0x0000000000015ef5        0x3 ff
  .rodata._ZL14setGpsModeText
-                0x0000000000015ed4       0x1e ./main.o
- *fill*         0x0000000000015ef2        0x2 ff
+                0x0000000000015ef8       0x1e ./main.o
+ *fill*         0x0000000000015f16        0x2 ff
  .rodata._ZL19setDistanceModeText
-                0x0000000000015ef4        0x8 ./main.o
+                0x0000000000015f18        0x8 ./main.o
  .rodata._ZL26detectedPressureSensorText
-                0x0000000000015efc       0x2d ./main.o
- *fill*         0x0000000000015f29        0x3 ff
+                0x0000000000015f20       0x2d ./main.o
+ *fill*         0x0000000000015f4d        0x3 ff
  .rodata._ZL16setMainDriveText
-                0x0000000000015f2c       0xe0 ./main.o
+                0x0000000000015f50       0xe0 ./main.o
  .rodata._ZL19setCapacityModeText
-                0x000000000001600c       0x1b ./main.o
- *fill*         0x0000000000016027        0x1 ff
- .rodata        0x0000000000016028       0x19 ./main.o
- *fill*         0x0000000000016041        0x3 ff
+                0x0000000000016030       0x1b ./main.o
+ *fill*         0x000000000001604b        0x1 ff
+ .rodata        0x000000000001604c       0x19 ./main.o
+ *fill*         0x0000000000016065        0x3 ff
  .rodata.str1.4
-                0x0000000000016044        0x4 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-w_pow.o)
+                0x0000000000016068        0x4 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-w_pow.o)
  .rodata.str1.4
-                0x0000000000016048        0x5 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-w_sqrt.o)
+                0x000000000001606c        0x5 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-w_sqrt.o)
  .rodata.str1.4
-                0x000000000001604d        0x8 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-e_pow.o)
+                0x0000000000016071        0x8 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-e_pow.o)
                                           0x1 (size before relaxing)
- *fill*         0x000000000001604d        0x3 ff
+ *fill*         0x0000000000016071        0x3 ff
  .rodata.npio2_hw
-                0x0000000000016050       0x80 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-e_rem_pio2.o)
+                0x0000000000016074       0x80 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-e_rem_pio2.o)
  .rodata.two_over_pi
-                0x00000000000160d0      0x108 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-e_rem_pio2.o)
+                0x00000000000160f4      0x108 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-e_rem_pio2.o)
  .rodata.init_jk
-                0x00000000000161d8       0x10 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-k_rem_pio2.o)
- .rodata.PIo2   0x00000000000161e8       0x40 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-k_rem_pio2.o)
+                0x00000000000161fc       0x10 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-k_rem_pio2.o)
+ *fill*         0x000000000001620c        0x4 ff
+ .rodata.PIo2   0x0000000000016210       0x40 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-k_rem_pio2.o)
  .rodata.atanlo
-                0x0000000000016228       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-s_atan.o)
+                0x0000000000016250       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-s_atan.o)
  .rodata.atanhi
-                0x0000000000016248       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-s_atan.o)
- .rodata.TWO52  0x0000000000016268       0x10 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-s_rint.o)
+                0x0000000000016270       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-s_atan.o)
+ .rodata.TWO52  0x0000000000016290       0x10 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libm.a(lib_a-s_rint.o)
  .rodata.str1.1
-                0x0000000000016278        0xa /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-locale.o)
+                0x00000000000162a0        0xa /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-locale.o)
                                           0xb (size before relaxing)
  .rodata.str1.1
-                0x0000000000016282       0x12 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-nano-vfprintf_float.o)
+                0x00000000000162aa       0x12 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-nano-vfprintf_float.o)
  .rodata.str1.1
-                0x0000000000016294       0x22 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-nano-vfprintf_i.o)
+                0x00000000000162bc       0x22 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-nano-vfprintf_i.o)
  .rodata._ctype_
-                0x00000000000162b6      0x101 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-ctype_.o)
-                0x00000000000162b6                _ctype_
+                0x00000000000162de      0x101 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-ctype_.o)
+                0x00000000000162de                _ctype_
  .rodata.str1.1
-                0x00000000000163b7        0xd /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-dtoa.o)
+                0x00000000000163df        0xd /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-dtoa.o)
                                           0xf (size before relaxing)
  .rodata.__sf_fake_stdin
-                0x00000000000163c4       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-findfp.o)
-                0x00000000000163c4                __sf_fake_stdin
+                0x00000000000163ec       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-findfp.o)
+                0x00000000000163ec                __sf_fake_stdin
  .rodata.__sf_fake_stdout
-                0x00000000000163e4       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-findfp.o)
-                0x00000000000163e4                __sf_fake_stdout
+                0x000000000001640c       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-findfp.o)
+                0x000000000001640c                __sf_fake_stdout
  .rodata.__sf_fake_stderr
-                0x0000000000016404       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-findfp.o)
-                0x0000000000016404                __sf_fake_stderr
- *fill*         0x0000000000016424        0x4 ff
+                0x000000000001642c       0x20 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-findfp.o)
+                0x000000000001642c                __sf_fake_stderr
+ *fill*         0x000000000001644c        0x4 ff
  .rodata.__mprec_tens
-                0x0000000000016428       0xc8 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-mprec.o)
-                0x0000000000016428                __mprec_tens
+                0x0000000000016450       0xc8 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-mprec.o)
+                0x0000000000016450                __mprec_tens
  .rodata.__mprec_bigtens
-                0x00000000000164f0       0x28 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-mprec.o)
-                0x00000000000164f0                __mprec_bigtens
+                0x0000000000016518       0x28 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-mprec.o)
+                0x0000000000016518                __mprec_bigtens
  .rodata.p05.6099
-                0x0000000000016518        0xc /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-mprec.o)
+                0x0000000000016540        0xc /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-mprec.o)
  .rodata.str1.1
-                0x0000000000016524       0x11 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-nano-svfprintf.o)
-                0x0000000000016538                . = ALIGN (0x4)
- *fill*         0x0000000000016535        0x3 ff
+                0x000000000001654c       0x11 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m/fpu/libg_nano.a(lib_a-nano-svfprintf.o)
+                0x0000000000016560                . = ALIGN (0x4)
+ *fill*         0x000000000001655d        0x3 ff
  *(.init)
- .init          0x0000000000016538        0x4 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crti.o
-                0x0000000000016538                _init
- .init          0x000000000001653c        0x8 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtn.o
-                0x0000000000016544                . = ALIGN (0x4)
-                0x0000000000016544                __preinit_array_start = .
+ .init          0x0000000000016560        0x4 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crti.o
+                0x0000000000016560                _init
+ .init          0x0000000000016564        0x8 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtn.o
+                0x000000000001656c                . = ALIGN (0x4)
+                0x000000000001656c                __preinit_array_start = .
  *(.preinit_array)
-                0x0000000000016544                __preinit_array_end = .
-                0x0000000000016544                __init_array_start = .
+                0x000000000001656c                __preinit_array_end = .
+                0x000000000001656c                __init_array_start = .
  *(SORT(.init_array.*))
  *(.init_array)
- .init_array    0x0000000000016544        0x4 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
- .init_array    0x0000000000016548        0x4 ./teensy3/IPAddress.o
- .init_array    0x000000000001654c        0x4 ./teensy3/Tone.o
- .init_array    0x0000000000016550        0x4 ./i2c_t3/i2c_t3.o
- .init_array    0x0000000000016554        0x4 ./VarioSensor.o
- .init_array    0x0000000000016558        0x4 ./main.o
-                0x000000000001655c                __init_array_end = .
+ .init_array    0x000000000001656c        0x4 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
+ .init_array    0x0000000000016570        0x4 ./teensy3/IPAddress.o
+ .init_array    0x0000000000016574        0x4 ./teensy3/Tone.o
+ .init_array    0x0000000000016578        0x4 ./i2c_t3/i2c_t3.o
+ .init_array    0x000000000001657c        0x4 ./VarioSensor.o
+ .init_array    0x0000000000016580        0x4 ./main.o
+                0x0000000000016584                __init_array_end = .
 
-.glue_7         0x000000000001655c        0x0
- .glue_7        0x000000000001655c        0x0 linker stubs
+.glue_7         0x0000000000016584        0x0
+ .glue_7        0x0000000000016584        0x0 linker stubs
 
-.glue_7t        0x000000000001655c        0x0
- .glue_7t       0x000000000001655c        0x0 linker stubs
+.glue_7t        0x0000000000016584        0x0
+ .glue_7t       0x0000000000016584        0x0 linker stubs
 
-.vfp11_veneer   0x000000000001655c        0x0
- .vfp11_veneer  0x000000000001655c        0x0 linker stubs
+.vfp11_veneer   0x0000000000016584        0x0
+ .vfp11_veneer  0x0000000000016584        0x0 linker stubs
 
-.v4_bx          0x000000000001655c        0x0
- .v4_bx         0x000000000001655c        0x0 linker stubs
+.v4_bx          0x0000000000016584        0x0
+ .v4_bx         0x0000000000016584        0x0 linker stubs
 
-.fini           0x000000000001655c        0x4
- .fini          0x000000000001655c        0x4 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crti.o
-                0x000000000001655c                _fini
+.fini           0x0000000000016584        0x4
+ .fini          0x0000000000016584        0x4 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crti.o
+                0x0000000000016584                _fini
 
-.iplt           0x0000000000016560        0x0
- .iplt          0x0000000000016560        0x0 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
+.iplt           0x0000000000016588        0x0
+ .iplt          0x0000000000016588        0x0 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
 
-.eh_frame       0x0000000000016560        0x0
- .eh_frame      0x0000000000016560        0x0 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
+.eh_frame       0x0000000000016588        0x0
+ .eh_frame      0x0000000000016588        0x0 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
 
-.rel.dyn        0x0000000000016560        0x0
- .rel.iplt      0x0000000000016560        0x0 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
+.rel.dyn        0x0000000000016588        0x0
+ .rel.iplt      0x0000000000016588        0x0 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
 
-.ARM.exidx      0x0000000000016560        0x0
-                0x0000000000016560                __exidx_start = .
+.ARM.exidx      0x0000000000016588        0x0
+                0x0000000000016588                __exidx_start = .
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x0000000000016560                __exidx_end = .
-                0x0000000000016560                _etext = .
+                0x0000000000016588                __exidx_end = .
+                0x0000000000016588                _etext = .
 
 .usbdescriptortable
                 0x000000001fff0000       0xa0
@@ -10642,7 +10642,7 @@ LOAD /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.
  .usbbuffers    0x000000001fff0398      0x360 ./teensy3/usb_mem.o
                 0x000000001fff0398                usb_buffer_memory
 
-.data           0x000000001fff06f8      0xadc load address 0x0000000000016560
+.data           0x000000001fff06f8      0xadc load address 0x0000000000016588
                 0x000000001fff06f8                . = ALIGN (0x4)
                 0x000000001fff06f8                _sdata = .
  *(.fastrun*)
@@ -10738,16 +10738,16 @@ LOAD /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.
                 0x000000001fff11d4                . = ALIGN (0x4)
                 0x000000001fff11d4                _edata = .
 
-.jcr            0x000000001fff11d4        0x0 load address 0x000000000001703c
+.jcr            0x000000001fff11d4        0x0 load address 0x0000000000017064
  .jcr           0x000000001fff11d4        0x0 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
 
-.igot.plt       0x000000001fff11d4        0x0 load address 0x000000000001703c
+.igot.plt       0x000000001fff11d4        0x0 load address 0x0000000000017064
  .igot.plt      0x000000001fff11d4        0x0 /home/karl/arduino-1.8.5/hardware/tools/arm/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m/fpu/crtbegin.o
 
 .noinit
  *(.noinit*)
 
-.bss            0x000000001fff11d8      0xdb0 load address 0x0000000000017040
+.bss            0x000000001fff11d8      0xdb0 load address 0x0000000000017068
                 0x000000001fff11d8                . = ALIGN (0x4)
                 0x000000001fff11d8                _sbss = .
                 0x000000001fff11d8                __bss_start__ = .

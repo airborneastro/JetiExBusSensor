@@ -51,7 +51,9 @@ VarioSensor::VarioSensor()
 
 void VarioSensor::setup(long normpress) {
 #ifdef SENSOR_MS5611
-    Wire2.begin(I2C_MASTER, 0x00, I2C_PINS_3_4, I2C_PULLUP_EXT, I2C_RATE_400);
+    Wire2.begin(I2C_MASTER, 0x00, I2C_PINS_3_4, I2C_PULLUP_EXT, I2C_RATE_400);  //do not use internal pullup on Teensy 3.5 (resistance too low)
+#elif defined SENSOR_5803
+    Wire1.begin(I2C_MASTER, 0x00, I2C_PINS_37_38, I2C_PULLUP_EXT, I2C_RATE_400);
 #else
     Wire.begin(I2C_MASTER, 0x00, I2C_PINS_47_48, I2C_PULLUP_EXT, I2C_RATE_400);
 #endif

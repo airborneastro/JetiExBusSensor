@@ -115,7 +115,7 @@ void MS5611::Test(int nSamples) {
 void MS5611::CalculateTemperatureCx10(void) {
 	dT_ = (int64_t)D2_ - tref_;
 	tempCx100_ = 2000 + ((dT_*((int32_t)cal_[5]))>>23);
-    //Serial.printf("tempCx100 %d", tempCx100_);
+    //Serial.printf("tempCx100 %d \n\r", tempCx100_);
 	}
 
 
@@ -140,7 +140,7 @@ float MS5611::CalculatePressurePa(void) {
 	pa = (((float)((int64_t)D1_ * sens))/2097152.0f - (float)offset1) / 32768.0f;
 	//return pa;
 
-#ifndef SENSOR_MS5611
+#if not defined (SENSOR_MS5611) && not defined(SENSOR_5803)//for MPU9250
 	return 2.0f*pa;  //something is fishy here.... Karl
 #else
 	return pa;
@@ -152,9 +152,15 @@ float MS5611::CalculatePressurePa(void) {
 /// Trigger a pressure sample with max oversampling rate
 void MS5611::TriggerPressureSample(void) {
 #ifndef SENSOR_MS5611
-	Wire.beginTransmission(MS5611_I2C_ADDRESS);
-	Wire.write(MS5611_CONVERT_D1 | MS5611_ADC_4096);  //  pressure conversion, max oversampling
-	Wire.endTransmission(I2C_NOSTOP);
+	#ifdef SENSOR_5803
+		Wire1.beginTransmission(MS5611_I2C_ADDRESS);
+		Wire1.write(MS5611_CONVERT_D1 | MS5611_ADC_4096);  //  pressure conversion, max oversampling
+		Wire1.endTransmission(I2C_NOSTOP);
+	#else
+		Wire.beginTransmission(MS5611_I2C_ADDRESS);
+		Wire.write(MS5611_CONVERT_D1 | MS5611_ADC_4096);  //  pressure conversion, max oversampling
+		Wire.endTransmission(I2C_NOSTOP);
+	#endif
 #else
 	Wire2.beginTransmission(MS5611_I2C_ADDRESS);
 	Wire2.write(MS5611_CONVERT_D1 | MS5611_ADC_4096);  //  pressure conversion, max oversampling
@@ -166,9 +172,15 @@ void MS5611::TriggerPressureSample(void) {
 void MS5611::TriggerTemperatureSample(void) {
 
 #ifndef SENSOR_MS5611
-	Wire.beginTransmission(MS5611_I2C_ADDRESS);
-	Wire.write(MS5611_CONVERT_D2 | MS5611_ADC_4096);   //  temperature conversion, max oversampling
-	Wire.endTransmission(I2C_NOSTOP);
+	#ifdef SENSOR_5803
+		Wire1.beginTransmission(MS5611_I2C_ADDRESS);
+		Wire1.write(MS5611_CONVERT_D2 | MS5611_ADC_4096);   //  temperature conversion, max oversampling
+		Wire1.endTransmission(I2C_NOSTOP);
+	#else
+		Wire.beginTransmission(MS5611_I2C_ADDRESS);
+		Wire.write(MS5611_CONVERT_D2 | MS5611_ADC_4096);   //  temperature conversion, max oversampling
+		Wire.endTransmission(I2C_NOSTOP);
+	#endif
 #else
 	Wire2.beginTransmission(MS5611_I2C_ADDRESS);
 	Wire2.write(MS5611_CONVERT_D2 | MS5611_ADC_4096);   //  temperature conversion, max oversampling
@@ -179,10 +191,17 @@ void MS5611::TriggerTemperatureSample(void) {
 uint32_t MS5611::ReadSample(void)	{
 
 #ifndef SENSOR_MS5611
-	Wire.beginTransmission(MS5611_I2C_ADDRESS);  // Initialize the Tx buffer
-	Wire.write(0x00);                        // Put ADC read command in Tx buffer
-	Wire.endTransmission(I2C_NOSTOP);        // Send the Tx buffer, but send a restart to keep connection alive
-    Wire.requestFrom(MS5611_I2C_ADDRESS, 3);     // Read three bytes from slave PROM address
+	#ifdef SENSOR_5803
+		Wire1.beginTransmission(MS5611_I2C_ADDRESS);  // Initialize the Tx buffer
+		Wire1.write(0x00);                        // Put ADC read command in Tx buffer
+		Wire1.endTransmission(I2C_NOSTOP);        // Send the Tx buffer, but send a restart to keep connection alive
+		Wire1.requestFrom(MS5611_I2C_ADDRESS, 3);     // Read three bytes from slave PROM address
+	#else
+		Wire.beginTransmission(MS5611_I2C_ADDRESS);  // Initialize the Tx buffer
+		Wire.write(0x00);                        // Put ADC read command in Tx buffer
+		Wire.endTransmission(I2C_NOSTOP);        // Send the Tx buffer, but send a restart to keep connection alive
+		Wire.requestFrom(MS5611_I2C_ADDRESS, 3);     // Read three bytes from slave PROM address
+#endif
 #else
 	Wire2.beginTransmission(MS5611_I2C_ADDRESS);  // Initialize the Tx buffer
 	Wire2.write(0x00);                        // Put ADC read command in Tx buffer
@@ -194,9 +213,15 @@ uint32_t MS5611::ReadSample(void)	{
     int inx = 0;
 	uint8_t buf[3];
 #ifndef SENSOR_MS5611
-	while (Wire.available()) {
-        buf[inx++] = Wire.read();
+	#ifdef SENSOR_5803
+	while (Wire1.available()) {
+        buf[inx++] = Wire1.read();
 		}
+	#else
+		while (Wire.available()) {
+	        buf[inx++] = Wire.read();
+			}
+	#endif
 #else
 	while (Wire2.available()) {
         buf[inx++] = Wire2.read();
@@ -242,7 +267,7 @@ int MS5611::SampleStateMachine(void) {
 
 
 void MS5611::Reset() {
-#ifndef SENSOR_MS5611
+#if (not defined(SENSOR_MS5611)) && (not defined(SENSOR_5803))
 	WriteByte(MPU9250_I2C_ADDRESS, PWR_MGMT_1, 0x80);
 	delay(100); // Wait after reset
 // as per datasheet all registers are reset to 0 except WHOAMI and PWR_MGMT_1,
@@ -254,10 +279,16 @@ void MS5611::Reset() {
 	Wire.write(MS5611_RESET);
 	Wire.endTransmission();
 #else
+	#ifdef SENSOR_5803
+		Wire1.beginTransmission(MS5611_I2C_ADDRESS);
+		Wire1.write(MS5611_RESET);
+		Wire1.endTransmission();
+	#else
+		Wire2.beginTransmission(MS5611_I2C_ADDRESS);
+		Wire2.write(MS5611_RESET);
+		Wire2.endTransmission();
+	#endif
 
-	Wire2.beginTransmission(MS5611_I2C_ADDRESS);
-	Wire2.write(MS5611_RESET);
-	Wire2.endTransmission();
 #endif
 	delay(100); // 3mS as per app note AN520
     }
@@ -277,16 +308,29 @@ void MS5611::GetCalibrationCoefficients(void)  {
 int MS5611::ReadPROM(void)    {
     for (int inx = 0; inx < 8; inx++) {
 #ifndef SENSOR_MS5611
-    	Wire.beginTransmission(MS5611_I2C_ADDRESS);
-		Wire.write(0xA0 + inx*2);
-		Wire.endTransmission(false); // restart
-		Wire.requestFrom(MS5611_I2C_ADDRESS, 2);
+	#ifdef SENSOR_5803
+    	Wire1.beginTransmission(MS5611_I2C_ADDRESS);
+		Wire1.write(0xA0 + inx*2);
+		Wire1.endTransmission(false); // restart
+		Wire1.requestFrom(MS5611_I2C_ADDRESS, 2);
 		int cnt = 0;
-		while (Wire.available()) {
-			prom_[inx*2 + cnt] = Wire.read();
+		while (Wire1.available()) {
+			prom_[inx*2 + cnt] = Wire1.read();
 			cnt++;
 			}
 		}
+	#else
+    	Wire.beginTransmission(MS5611_I2C_ADDRESS);
+    	Wire.write(0xA0 + inx*2);
+    	Wire.endTransmission(false); // restart
+    	Wire.requestFrom(MS5611_I2C_ADDRESS, 2);
+    	int cnt = 0;
+    	while (Wire.available()) {
+    		prom_[inx*2 + cnt] = Wire.read();
+    		cnt++;
+    		}
+    	}
+	#endif
 #else
 	Wire2.beginTransmission(MS5611_I2C_ADDRESS);
 
@@ -306,7 +350,8 @@ int MS5611::ReadPROM(void)    {
 	for (int inx = 0; inx < 14; inx++) {
 		Serial.printf("0x%02x ", prom_[inx]);
 		}
-	Serial.printf("\r\n");*/
+	Serial.printf("\r\n");
+*/
 	uint8_t crcPROM = prom_[15] & 0x0F;
 	uint8_t crcCalculated = CRC4(prom_);
 
@@ -343,10 +388,17 @@ uint8_t MS5611::CRC4(uint8_t prom[] ) {
 void MS5611::WriteByte(uint8_t deviceAddress, uint8_t registerAddress, uint8_t d) {
 
 #ifndef SENSOR_MS5611
-  Wire.beginTransmission(deviceAddress);
-  Wire.write(registerAddress);
-  Wire.write(d);
-  Wire.endTransmission();
+	#ifdef SENSOR_5803
+		Wire1.beginTransmission(deviceAddress);
+		Wire1.write(registerAddress);
+		Wire1.write(d);
+		Wire1.endTransmission();
+	#else
+		Wire.beginTransmission(deviceAddress);
+		Wire.write(registerAddress);
+		Wire.write(d);
+		Wire.endTransmission();
+	#endif
 #else
   Wire2.beginTransmission(deviceAddress);
   Wire2.write(registerAddress);
@@ -359,11 +411,19 @@ void MS5611::WriteByte(uint8_t deviceAddress, uint8_t registerAddress, uint8_t d
 uint8_t MS5611::ReadByte(uint8_t deviceAddress, uint8_t registerAddress){
   uint8_t d;
 #ifndef SENSOR_MS5611
-  Wire.beginTransmission(deviceAddress);
-  Wire.write(registerAddress);
-  Wire.endTransmission(false); // restart
-  Wire.requestFrom(deviceAddress, (uint8_t) 1);
-  d = Wire.read();
+	#ifdef SENSOR_5803
+  		Wire1.beginTransmission(deviceAddress);
+  		Wire1.write(registerAddress);
+  		Wire1.endTransmission(false); // restart
+  		Wire1.requestFrom(deviceAddress, (uint8_t) 1);
+  		d = Wire1.read();
+	#else
+  		Wire.beginTransmission(deviceAddress);
+  		Wire.write(registerAddress);
+  		Wire.endTransmission(false); // restart
+  		Wire.requestFrom(deviceAddress, (uint8_t) 1);
+  		d = Wire.read();
+	#endif
 #else
   Wire2.beginTransmission(deviceAddress);
   Wire2.write(registerAddress);

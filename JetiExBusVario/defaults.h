@@ -14,7 +14,8 @@
 //#define SUPPORT_BMx280                        // comment to disable devices
 #define SUPPORT_MS5611_LPS  
 #define SUPPORT_GPS
-#define SUPPORT_MAIN_DRIVE
+#define GPS_VENUS
+//#define SUPPORT_MAIN_DRIVE
 //#define SUPPORT_RX_VOLTAGE
 //#define SUPPORT_EXT_TEMP
 
@@ -154,8 +155,11 @@ enum {
 
 
 // **** GPS settings ****
-
+#ifndef GPS_VENUS
 #define GPSBaud 9600
+#else
+#define GPSBaud 9600
+#endif
 
 // GPS mode
 enum {

@@ -204,8 +204,8 @@ void setup()
 #ifdef JETIEX_DEBUG
 #if defined (CORE_TEENSY) || (__AVR_ATmega32U4__)
 	Serial.begin( 38400 );
-	// delay(5000);
-	// Serial.println("Start Vario, wait 5sec");
+	 delay(2000);
+	 Serial.println("Start Vario, wait 10sec");
 #endif
 #endif
 
@@ -240,6 +240,7 @@ void setup()
 		if (EEPROM.read(12) != 0xFF) {
 			pressureSensor.normpress = EEPROM.read(12)*100 + 78400;//EEPROM = 229 -> 101300
 		}
+		//Serial.println("Vor sensoraktivierung");
 		variosensor.setup(pressureSensor.normpress);
 		break;
 	case LPS_ :
@@ -427,12 +428,23 @@ void setup()
 		   static long avPressure = 0;
 		   static long startAltitude = 0;
 		   static uint8_t numVario = 0;
+
 		   static long avAltitude = 0;
 		   long curAltitude;
 		   long uPressure;
 		   int uTemperature;
 		   long uVario;
-
+/*
+		   while(gpsSerial.available() )  {
+			   char c = gpsSerial.read();
+			   Serial.print(c);
+			   if(gps.encode(c)){
+		   			break;
+		   		}else{
+		   			//return ;
+		   		}
+		   }
+*/
 		   if (jetiEx.IsBusReleased())
 		   {
 			   // exBus is currently sending an ex packet
@@ -444,6 +456,7 @@ void setup()
 			   avTemp = 0;
 			   avAltitude = 0;
 			   numVario = 0;
+#ifdef SUPPORT_GPS
 			   while(gpsSerial.available() )
 			   {
 				   char c = gpsSerial.read();
@@ -454,7 +467,7 @@ void setup()
 					   //return ;
 				   }
 			   }
-
+#endif
 		   }
 
 		   if (variosensor.GetClimb(&uVario, pressureSensor.smoothingValue, pressureSensor.normpress)) {
@@ -752,8 +765,12 @@ void setup()
 		   HandleMenu();
 #endif
 		  jetiEx.DoJetiExBus(); //question indicator if sensor data were sent?
-
-
-
+/* for testing without receiver only
+		  avVario=0;
+		  avPressure = 0;
+		  avTemp = 0;
+		  avAltitude = 0;
+		  numVario = 0;
+*/
 	   }//while 1
    }//int main

@@ -35,7 +35,7 @@ enum screenViews {
 const char menuText[][17] PROGMEM=
 {
   {"VarioGPS Sensor"},
-  {"Reset offset"},
+  {"Reset mAh"},
   #ifdef SUPPORT_GPS
   {"GPS mode:"},
   {"GPS distance:"},

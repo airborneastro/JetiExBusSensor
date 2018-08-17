@@ -15,7 +15,7 @@
 #define SUPPORT_MS5611_LPS  
 #define SUPPORT_GPS
 #define GPS_VENUS
-//#define SUPPORT_MAIN_DRIVE
+#define SUPPORT_MAIN_DRIVE
 //#define SUPPORT_RX_VOLTAGE
 //#define SUPPORT_EXT_TEMP
 
@@ -155,10 +155,10 @@ enum {
 
 
 // **** GPS settings ****
-#ifndef GPS_VENUS
-#define GPSBaud 9600
+#if not defined (GPS_VENUS)
+	#define GPSBaud 9600
 #else
-#define GPSBaud 9600
+	#define GPSBaud 9600
 #endif
 
 // GPS mode

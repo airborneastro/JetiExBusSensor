@@ -516,8 +516,8 @@ void setup()
 			   }
 
 			   float mVanalogIn = (analogRead(CURRENT_PIN) / 1023.0) * V_REF; // mV
-			   //float cuAmp = (mVanalogIn - ampOffset) / mVperAmp[currentSensor-1];
-			   float cuAmp = (ampOffset - mVanalogIn) / mVperAmp[currentSensor-1]; //reverse polarity for Sharon wiring
+			   float cuAmp = (mVanalogIn - ampOffset) / mVperAmp[currentSensor-1];
+			   //float cuAmp = (ampOffset - mVanalogIn) / mVperAmp[currentSensor-1]; //reverse polarity for Sharon wiring
 
 
 			   cuAmp *= float(motor_on); // measure current only if motor is on

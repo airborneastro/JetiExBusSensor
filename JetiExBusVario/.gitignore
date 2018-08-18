@@ -3,4 +3,7 @@
 /DemoSensor.cpp
 /DemoSensor.h
 /*.o
-
+/Debug
+.settings
+.project
+.cproject

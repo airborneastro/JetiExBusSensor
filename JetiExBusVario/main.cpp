@@ -4,7 +4,7 @@
   ------------------------------------------------------------------
             *** Universeller Jeti Telemetrie Sensor ***
   Vario, GPS, Strom/Spannung, Empfängerspannungen, Temperaturmessung
-
+  Version ASW28
 */
 #define VARIOGPS_VERSION "Vario ExBus V0.9"
 #define JETIEX_DEBUG

@@ -16,6 +16,7 @@ enum screenViews {
   detectedPressureSensor,
   setVarioSmoothingValue,
   setNormPress,
+  setIntTime,
   #ifdef SUPPORT_MAIN_DRIVE
   setMainDrive,
   setCapacityMode,
@@ -43,6 +44,7 @@ const char menuText[][17] PROGMEM=
   {"Pressure sensor:"},
   {"Vario smoothing:"},
   {"Vario NormPress:"},
+  {"Vario IntTime:  "},
   #ifdef SUPPORT_MAIN_DRIVE
   {"Main drive:"},
   {"Capacity reset:"},
@@ -182,6 +184,11 @@ void HandleMenu()
           pressureSensor.normpress += 100;
         }
         break;
+      case setIntTime:
+    	  if (pressureSensor.inttime < 30) {
+    		 pressureSensor.inttime +=1;
+    	  }
+    	  break;
       #ifdef SUPPORT_MAIN_DRIVE
       case setMainDrive:
         if (currentSensor > mainDrive_disabled) {
@@ -230,6 +237,11 @@ void HandleMenu()
 
         }
         break;
+      case setIntTime:
+          	  if (pressureSensor.inttime > 5) {
+          		 pressureSensor.inttime -=1;
+          	  }
+          	  break;
       #ifdef SUPPORT_MAIN_DRIVE
       case setMainDrive:
         if (currentSensor < ACS758_200U) {
@@ -257,34 +269,35 @@ void HandleMenu()
       #endif
       case saveSettings:
         #ifdef SUPPORT_GPS
-    	EEPROM.write(1, gpsSettings.mode);
-        EEPROM.write(2, gpsSettings.distance3D);
+    	EEPROM.write(P_GPS_MODE, gpsSettings.mode);
+        EEPROM.write(P_GPS_3D, gpsSettings.distance3D);
         #endif
 
         #ifdef SUPPORT_MAIN_DRIVE
-        EEPROM.write(3, currentSensor);
-        EEPROM.write(5, capacityMode);
+        EEPROM.write(P_CURRENT_SENSOR, currentSensor);
+        EEPROM.write(P_CAPACITY_MODE, capacityMode);
         #endif
 
         #ifdef SUPPORT_RX_VOLTAGE
-        EEPROM.write(6, enableRx1);
-        EEPROM.write(7, enableRx2);
+        EEPROM.write(P_ENABLE_RX1, enableRx1);
+        EEPROM.write(P_ENABLE_RX2, enableRx2);
         #endif
 
         #ifdef SUPPORT_EXT_TEMP
-        EEPROM.write(8, enableExtTemp);
+        EEPROM.write(P_ENABLE_TEMP, enableExtTemp);
         #endif
 
-        EEPROM.write(10,int(pressureSensor.smoothingValue));
-        EEPROM.write(12,(pressureSensor.normpress-78400)/100);  //78400 = 2000m, EEPROM = 0
+        EEPROM.write(P_VARIO_SMOOTHING,uint8_t(pressureSensor.smoothingValue));
+        EEPROM.write(P_VARIO_NORMPRESS,(pressureSensor.normpress-78400)/100);  //78400 = 2000m, EEPROM = 0
+        EEPROM.write(P_VARIO_INTTIME,uint8_t(pressureSensor.inttime));
         resetFunc();
         break;
       case defaultSettings:
         for(int i=0; i < 50; i++){
           EEPROM.write(i, 0xFF);
         }
-        EEPROM.put(EEPROM_ADRESS_CAPACITY, 0.0f);
-        EEPROM.put(EEPROM_ADRESS_CAPACITY+sizeof(float), 0.0f);
+        EEPROM.put(P_CAPACITY_VALUE, 0.0f);
+        EEPROM.put(P_VOLT_VALUE, 0.0f);
         resetFunc();
     }
 
@@ -325,6 +338,10 @@ void HandleMenu()
       if(pressureSensor.type == unknown)goto startHandleMenu;
       sprintf( _bufferLine2, " %6dPa",pressureSensor.normpress);
       break;
+    case setIntTime:
+          if(pressureSensor.type == unknown)goto startHandleMenu;
+          sprintf( _bufferLine2, " %2d sec",pressureSensor.inttime);
+          break;
     #ifdef SUPPORT_MAIN_DRIVE
     case setMainDrive:
       memcpy_P( _bufferLine2, &setMainDriveText[currentSensor], 16 );

@@ -148,6 +148,7 @@ struct {
   long smoothingValue;
   long normpress; //
   long deadzone;
+  long inttime;
 } pressureSensor;
 
 
@@ -237,8 +238,12 @@ void setup()
 	case MS5611_:
 		pressureSensor.smoothingValue = MS5611_SMOOTHING;
 		pressureSensor.normpress = MS5611_NORMPRESS;
-		if (EEPROM.read(12) != 0xFF) {
-			pressureSensor.normpress = EEPROM.read(12)*100 + 78400;//EEPROM = 229 -> 101300
+		if (EEPROM.read(P_VARIO_NORMPRESS) != 0xFF) {
+			pressureSensor.normpress = EEPROM.read(P_VARIO_NORMPRESS)*100 + 78400;//EEPROM = 229 -> 101300
+		}
+		pressureSensor.inttime = VARIO_INTTIME;
+		if (EEPROM.read(P_VARIO_INTTIME) != 0xFF) {
+			pressureSensor.inttime = EEPROM.read(P_VARIO_INTTIME);
 		}
 		variosensor.setup(pressureSensor.normpress);
 		break;
@@ -251,42 +256,42 @@ void setup()
 	// read settings from eeprom
 #ifdef SUPPORT_GPS
 
-	if (EEPROM.read(1) != 0xFF) {
-		gpsSettings.mode = EEPROM.read(1);
+	if (EEPROM.read(P_GPS_MODE) != 0xFF) {
+		gpsSettings.mode = EEPROM.read(P_GPS_MODE);
 	}
 
-	if (EEPROM.read(2) != 0xFF) {
-		gpsSettings.distance3D = EEPROM.read(2);
+	if (EEPROM.read(P_GPS_3D) != 0xFF) {
+		gpsSettings.distance3D = EEPROM.read(P_GPS_3D);
 	}
 #endif
 
 #ifdef SUPPORT_MAIN_DRIVE
-	if (EEPROM.read(3) != 0xFF) {
-		currentSensor = EEPROM.read(3);
+	if (EEPROM.read(P_CURRENT_SENSOR) != 0xFF) {
+		currentSensor = EEPROM.read(P_CURRENT_SENSOR);
 	}
-	if (EEPROM.read(5) != 0xFF) {
-		capacityMode = EEPROM.read(5);
+	if (EEPROM.read(P_CAPACITY_MODE) != 0xFF) {
+		capacityMode = EEPROM.read(P_CAPACITY_MODE);
 	}
 
 #endif
 
 #ifdef SUPPORT_RX_VOLTAGE
-		if (EEPROM.read(6) != 0xFF) {
-			enableRx1 = EEPROM.read(6);
+		if (EEPROM.read(P_ENABLE_RX1) != 0xFF) {
+			enableRx1 = EEPROM.read(P_ENABLE_RX1);
 		}
-		if (EEPROM.read(7) != 0xFF) {
-			enableRx2 = EEPROM.read(7);
+		if (EEPROM.read(P_ENABLE_RX2) != 0xFF) {
+			enableRx2 = EEPROM.read(P_ENABLE_RX2);
 		}
 #endif
 
 #ifdef SUPPORT_EXT_TEMP
-		if (EEPROM.read(8) != 0xFF) {
-			enableExtTemp = EEPROM.read(8);
+		if (EEPROM.read(P_ENABLE_TEMP) != 0xFF) {
+			enableExtTemp = EEPROM.read(P_ENABLE_TEMP);
 		}
 #endif
 
-		if (EEPROM.read(10) != 0xFF) {
-			pressureSensor.smoothingValue = EEPROM.read(10);
+		if (EEPROM.read(P_VARIO_SMOOTHING) != 0xFF) {
+			pressureSensor.smoothingValue = EEPROM.read(P_VARIO_SMOOTHING);
 		}
 
 #ifdef SUPPORT_GPS
@@ -307,6 +312,7 @@ void setup()
 		// Setup sensors
 		if(pressureSensor.type == unknown){
 			jetiEx.SetSensorActive( ID_VARIO, false, sensors );
+			jetiEx.SetSensorActive( ID_INTVARIO, false, sensors );
 		}
 
 		if(gpsSettings.mode == GPS_basic || pressureSensor.type != BME280){
@@ -347,10 +353,10 @@ void setup()
 			if(capacityMode > startup){
 
 				// read capacity from eeprom
-				int eeAddress = EEPROM_ADRESS_CAPACITY;
+				int eeAddress = P_CAPACITY_VALUE;
 				EEPROM.get(eeAddress, capacityConsumption);
 				if(capacityMode == automatic){
-					eeAddress += sizeof(float);
+					eeAddress = P_VOLT_VALUE;
 					float cuVolt = readAnalog_mV(getVoltageSensorTyp(),VOLTAGE_PIN)/1000.0;
 					float oldVolt;
 					EEPROM.get(eeAddress, oldVolt);
@@ -388,6 +394,9 @@ void setup()
 	   float testCurrent;
 	   static uint8_t previous_motor = 0;
 	   static unsigned long lastLoop = micros();
+	   static unsigned long intVariotime = millis();
+	   static long uintVario = 0;
+	   static unsigned long intVarionum = 0;
 	   static unsigned long elapsedmicros = 0;
 	   testCurrent = (analogRead(CURRENT_PIN) / 1023.0) * V_REF; //reads zero value current
 	   while(1) {	//replaces "loop" in Arduino code, fast loop reading climb etc
@@ -432,6 +441,7 @@ void setup()
 		   long uPressure;
 		   int uTemperature;
 		   long uVario;
+
 
 		   if (jetiEx.IsBusReleased())
 		   {
@@ -547,10 +557,10 @@ void setup()
 			   // save capacity and voltage to eeprom
 			   if(capacityMode > startup && (millis() - lastTimeCapacity) > CAPACITY_SAVE_INTERVAL){
 				   if(cuAmp <= MAX_CUR_TO_SAVE_CAPACITY){
-					   int eeAddress = EEPROM_ADRESS_CAPACITY;
+					   int eeAddress = P_CAPACITY_VALUE;
 					   EEPROM.put(eeAddress, capacityConsumption);
-					   eeAddress += sizeof(float);
-					   EEPROM.put(eeAddress, cuVolt);;
+					   eeAddress = P_VOLT_VALUE;
+					   EEPROM.put(eeAddress, cuVolt);
 				   }
 				   lastTimeCapacity = millis();
 			   }
@@ -601,10 +611,20 @@ void setup()
 			   uPressure = avPressure/numVario;
 			   uTemperature = avTemp/numVario;
 			   curAltitude = avAltitude/numVario;
+			   uintVario += uVario; //integral vario sum
+			   intVarionum +=1;
 
 		   }
 		   //Serial.printf("Alt(cm) %6.2f \n", float(curAltitude));
+		   if ((millis() - intVariotime) >= pressureSensor.inttime*1000) { //in ms
+			   if (intVarionum) {
+				   jetiEx.SetSensorValue(ID_INTVARIO, uintVario/intVarionum);
+			   }
+			   uintVario = 0;
+			   intVariotime = millis();
+			   intVarionum = 0;
 
+		   }
 		   jetiEx.SetSensorValue( ID_VARIO, uVario );
 		   jetiEx.SetSensorValue( ID_PRESSURE, uPressure );
 		   jetiEx.SetSensorValue( ID_TEMPERATURE, uTemperature );

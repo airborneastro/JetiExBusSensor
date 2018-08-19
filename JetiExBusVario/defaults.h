@@ -23,7 +23,25 @@
 
 // **************************************
 
+// EEprom parameter addresses
+enum
+{
+  P_GPS_MODE =              1,  //except for capacity and volt, all values are written with
+  P_GPS_3D =                2,	//EEPROM.write(adress, data) which always writes a uint8_t as data
+  P_CURRENT_SENSOR =        3,
+  P_CURRENT_CALIBRATION =   4,
+  P_CAPACITY_MODE =         5,
+  P_ENABLE_RX1 =            6,
+  P_ENABLE_RX2 =            7,
+  P_ENABLE_TEMP =           8,
+  P_VARIO_SMOOTHING =      10,
+  P_VARIO_DEADZONE =       11,
+  P_VARIO_NORMPRESS = 	   12,
+  P_VARIO_INTTIME = 	   13,
+  P_CAPACITY_VALUE =       14,
+  P_VOLT_VALUE = 		   P_CAPACITY_VALUE + sizeof(float)
 
+};
 
 // Sensor IDs
 enum
@@ -49,7 +67,8 @@ enum
   ID_POWER,
   ID_RX1_VOLTAGE,
   ID_RX2_VOLTAGE,
-  ID_EXT_TEMP
+  ID_EXT_TEMP,
+  ID_INTVARIO
 };
 
 /*
@@ -88,6 +107,7 @@ JETISENSOR_CONST sensors[] PROGMEM =
   { ID_RX1_VOLTAGE, "Rx1 Voltage","V",          JetiSensor::TYPE_14b, 2 },
   { ID_RX2_VOLTAGE, "Rx2 Voltage","V",          JetiSensor::TYPE_14b, 2 },
   { ID_EXT_TEMP,    "Ext. Temp",  "\xB0\x43",   JetiSensor::TYPE_14b, 1 },
+  { ID_INTVARIO,     "IntegralVario", "m/s",    JetiSensor::TYPE_22b, 2 },
   { 0 }
 };
 #endif
@@ -151,7 +171,7 @@ enum {
 // LPS (LPS311)					//
 #define LPS_SMOOTHING 0.80		//EEPROM-Wert von 0 bis 255 * 100 geht bis 78400+25500 = 103900
 #define LPS_DEADZONE 0			//EPROM 229 ist Standardwert 78400 + 22900 = 101300
-
+#define VARIO_INTTIME 20000		//integrating vario 20sec default
 
 // **** GPS settings ****
 
@@ -225,6 +245,7 @@ enum {
   automatic,
   manual
 };
+
 
 // save capacity in automatic mode
 #define CAPACITY_SAVE_INTERVAL        10000         // ms

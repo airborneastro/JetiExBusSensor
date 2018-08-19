@@ -396,7 +396,7 @@ void setup()
 	   static unsigned long lastLoop = micros();
 	   static unsigned long intVariotime = millis();
 	   static long uintVario = 0;
-	   static unsigned long intVarionum = 0;
+	   static long intVarionum = 0;
 	   static unsigned long elapsedmicros = 0;
 	   testCurrent = (analogRead(CURRENT_PIN) / 1023.0) * V_REF; //reads zero value current
 	   while(1) {	//replaces "loop" in Arduino code, fast loop reading climb etc
@@ -617,8 +617,9 @@ void setup()
 		   }
 		   //Serial.printf("Alt(cm) %6.2f \n", float(curAltitude));
 		   if ((millis() - intVariotime) >= pressureSensor.inttime*1000) { //in ms
+
 			   if (intVarionum) {
-				   jetiEx.SetSensorValue(ID_INTVARIO, uintVario/intVarionum);
+				   jetiEx.SetSensorValue(ID_INTVARIO, uintVario/intVarionum); //both signed, otherwise result unsigned
 			   }
 			   uintVario = 0;
 			   intVariotime = millis();

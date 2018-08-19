@@ -8,6 +8,7 @@
 */
 #define VARIOGPS_VERSION "Vario ExBus V0.9"
 #define JETIEX_DEBUG
+#define ASW28 //also define sensor 5803 in MS5611.h !!
 #include "WProgram.h"
 /*
 
@@ -513,9 +514,11 @@ void setup()
 			   }
 
 			   float mVanalogIn = (analogRead(CURRENT_PIN) / 1023.0) * V_REF; // mV
-			   //float cuAmp = (mVanalogIn - ampOffset) / mVperAmp[currentSensor-1];
+#ifdef ASW28
+			   float cuAmp = (mVanalogIn - ampOffset) / mVperAmp[currentSensor-1];
+#else
 			   float cuAmp = (ampOffset - mVanalogIn) / mVperAmp[currentSensor-1]; //reverse polarity for Sharon wiring
-
+#endif
 
 			   cuAmp *= float(motor_on); // measure current only if motor is on
 			   if (currentSensor > APM25_A){

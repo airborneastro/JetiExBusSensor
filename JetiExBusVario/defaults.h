@@ -7,7 +7,8 @@
 // **** General settings ****************
 
 //#define UNIT_US                             //uncomment to enable US units
-
+#define ASW28
+//#define SHARON
 #define V_REF                     3300        // set supply voltage from 1800 to 5500mV
 
 // supported devices

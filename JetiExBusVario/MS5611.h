@@ -10,7 +10,9 @@
 // max conversion time with OSR=4096 is  9.04mS
 
 //#define SENSOR_MS5611 //if using external sensor on SCA2/SDA2 instead of MPU9250
-#define SENSOR_5803
+#define SENSOR_5803  //for ASW28
+//#define SENSOR_MS5611 //for Sharon
+//for pressure sensor on MPU9250 board, define none of the two sensors
 #define MS5611_SAMPLE_PERIOD_MS         10
 
 #define MS5611_READ_TEMPERATURE 		11
@@ -18,8 +20,7 @@
 #define MS5611_READ_PRESSURE1			23 //arbitrary for state machine
 
 #if not defined (SENSOR_MS5611) && not  defined (SENSOR_5803)
-	#define MS5611_I2C_ADDRESS 0x76 //for sensor on MPU9250 module or 5803 on ASW28
-	//#define MS5611_I2C_ADDRESS 0x77 //for sensor on MPU9250 module or 5803 on ASW28
+	#define MS5611_I2C_ADDRESS 0x76 //for sensor on MPU9250 module
 #else
 	#define  MS5611_I2C_ADDRESS 0x77 //for separate MS5611 and 5803
 

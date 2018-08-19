@@ -171,7 +171,7 @@ enum {
 // LPS (LPS311)					//
 #define LPS_SMOOTHING 0.80		//EEPROM-Wert von 0 bis 255 * 100 geht bis 78400+25500 = 103900
 #define LPS_DEADZONE 0			//EPROM 229 ist Standardwert 78400 + 22900 = 101300
-#define VARIO_INTTIME 20000		//integrating vario 20sec default
+#define VARIO_INTTIME 20		//integrating vario 20sec default
 
 // **** GPS settings ****
 

@@ -509,11 +509,11 @@ void setup()
 			   if (currentSensor == ACS709_35BB){
 				   ampOffset = ACS_B_offset;
 				   ampOffset = testCurrent;
-				   //ampOffset = (analogRead(VZCR_PIN) / 1023.0) * V_REF; //in mV, offset reference from chip
+				   //ampOffset = (analogRead(VZCR_PIN) / 1024.0) * V_REF; //in mV, offset reference from chip
 
 			   }
 
-			   float mVanalogIn = (analogRead(CURRENT_PIN) / 1023.0) * V_REF; // mV
+			   float mVanalogIn = (analogRead(CURRENT_PIN) / 1024.0) * V_REF; // mV
 
 			   float cuAmp = abs(mVanalogIn - ampOffset) / mVperAmp[currentSensor-1]; //current always positive, independet of wiring
 

@@ -514,11 +514,8 @@ void setup()
 			   }
 
 			   float mVanalogIn = (analogRead(CURRENT_PIN) / 1023.0) * V_REF; // mV
-#ifdef ASW28
-			   float cuAmp = (mVanalogIn - ampOffset) / mVperAmp[currentSensor-1];
-#else
-			   float cuAmp = (ampOffset - mVanalogIn) / mVperAmp[currentSensor-1]; //reverse polarity for Sharon wiring
-#endif
+
+			   float cuAmp = abs(mVanalogIn - ampOffset) / mVperAmp[currentSensor-1]; //current always positive, independet of wiring
 
 			   cuAmp *= float(motor_on); // measure current only if motor is on
 			   if (currentSensor > APM25_A){

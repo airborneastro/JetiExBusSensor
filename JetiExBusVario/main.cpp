@@ -413,9 +413,8 @@ void setup()
 				   sprintf(buf, "chan-%d: %d", i, jetiEx.GetChannel(i));
 				   Serial.println(buf);
 			   }
-		   	   if
 */
-			   if (jetiEx.GetChannel(7) > 8100) //read channel 7 (switch SE, motor ) = Servo channel 8, off = 8080
+			   if (jetiEx.GetChannel(7) > 9000) //read channel 7 (switch SE, motor ) = Servo channel 8, off = 8080
 				   motor_on = 1;
 			   else
 				   motor_on = 0;
@@ -515,25 +514,25 @@ void setup()
 
 			   float mVanalogIn = (analogRead(CURRENT_PIN) / 1024.0) * V_REF; // mV
 
-			   float cuAmp = abs(mVanalogIn - ampOffset) / mVperAmp[currentSensor-1]; //current always positive, independet of wiring
-
+			   float cuAmp = abs(mVanalogIn - ampOffset) / mVperAmp[currentSensor-1]; //current always positive, independet of wir
 			   cuAmp *= float(motor_on); // measure current only if motor is on
 			   if (currentSensor > APM25_A){
 				   cuAmp *= 5000.0/V_REF;
 			   }
 
-			   //Serial.printf("Current, mv/Amp %8.1f, %3d %3d ", cuAmp, mVperAmp[currentSensor-1] , currentSensor-1);
+			   //Serial.printf("Current, mv/Amp %8.1f, %8.1f, %3d ", cuAmp, mVperAmp[currentSensor-1] , currentSensor-1);
 			   //Serial.println();
 
 			   jetiEx.SetSensorValue( ID_CURRENT, cuAmp*10);
-
+			   //Serial.printf("consumption %8.1f ",  capacityConsumption);
+			   //Serial.println();
 			   if (motor_on) {
  				   if (previous_motor == 0) {
   					   elapsedmicros = micros(); //start clock
   					   previous_motor = 1;
   					   lastLoop = micros();
   				   }
-
+ 				   //Serial.println("Motor is on");
   				   if ((micros() - lastLoop) > 100000) { //needed because Teensy runs at full speed, loop does not wait "MEASURING_INTERVAL
   					 capacityConsumption += cuAmp * float(micros()-lastLoop)/1000000.0*0.277777777;
   					 lastLoop = micros();
@@ -543,8 +542,8 @@ void setup()
   			   else {
   				   if (previous_motor) {
   					   previous_motor = 0;
-  					   //Serial.printf("Elapsed seconds, consumption %8.1f %8.1f ", float(micros()- elapsedmicros)/1000000.0, capacityConsumption);
-  					   //Serial.println();
+//  					   Serial.printf("Elapsed seconds, consumption %8.1f %8.1f ", float(micros()- elapsedmicros)/1000000.0, capacityConsumption);
+//  					   Serial.println();
   				   }
   			   }
 

@@ -212,10 +212,9 @@ void HandleMenu()
     switch ( _nMenu )
     {
       case resetOffset:
-    	//EEPROM.put(EEPROM_ADRESS_CAPACITY, 0.0f);                 // reset capacity in eeprom
-    	//EEPROM.put(EEPROM_ADRESS_CAPACITY+sizeof(float), 0.0f);
+
     	EEPROM.put(P_CAPACITY_VALUE, 0.0f);                 // reset capacity in eeprom
-    	//EEPROM.put(EEPROM_ADRESS_CAPACITY+sizeof(float), 0.0f);
+    	EEPROM.put(P_VOLT_VALUE, 0.0f);
     	resetFunc();
         break;
       #ifdef SUPPORT_GPS

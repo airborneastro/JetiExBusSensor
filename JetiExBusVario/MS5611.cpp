@@ -143,6 +143,7 @@ float MS5611::CalculatePressurePa(void) {
 #if not defined (SENSOR_MS5611) && not defined(SENSOR_5803)//for MPU9250
 	return 2.0f*pa;  //something is fishy here.... Karl
 #else
+	//Serial.printf("Pressure %8.2f  \r", pa );
 	return pa;
 #endif
 

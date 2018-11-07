@@ -8,7 +8,6 @@
 */
 #define VARIOGPS_VERSION "Vario ExBus V0.9"
 #define JETIEX_DEBUG
-#define ASW28 //also define sensor 5803 in MS5611.h !!
 #include "WProgram.h"
 /*
 
@@ -99,7 +98,7 @@
 #include <JetiExBusProtocol.h>
 #include <EEPROM.h>
 #include <i2c_t3.h>
-#include "defaults.h"
+#include <defaults.h>
 #include "HardwareSerial.h"
 //#include <stdio.h>
 #include "VarioSensor.h"

@@ -8,10 +8,17 @@
 #ifndef MS5611_H_
 #define MS5611_H_
 // max conversion time with OSR=4096 is  9.04mS
-
+#include <JetiExProtocolBuf.h> //needs to be here to include defaults.h without loosing JETISENSOR_CONST definition...
+#include <defaults.h>
 //#define SENSOR_MS5611 //if using external sensor on SCA2/SDA2 instead of MPU9250
-#define SENSOR_5803  //for ASW28
-//#define SENSOR_MS5611 //for Sharon
+#if defined (ASW28)
+	#define SENSOR_5803  //for ASW28
+#endif
+
+#if defined (SHARON)
+	#define SENSOR_MS5611 //for Sharon
+#endif
+
 //for pressure sensor on MPU9250 board, define none of the two sensors
 #define MS5611_SAMPLE_PERIOD_MS         10
 

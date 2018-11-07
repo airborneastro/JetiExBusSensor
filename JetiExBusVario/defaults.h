@@ -5,10 +5,11 @@
 */
 
 // **** General settings ****************
-
+#ifndef DEFAULTS_H
+#define DEFAULTS_H
 //#define UNIT_US                             //uncomment to enable US units
-#define ASW28
-//#define SHARON
+//#define ASW28
+#define SHARON
 #define V_REF                     3300        // set supply voltage from 1800 to 5500mV
 
 // supported devices
@@ -366,4 +367,4 @@ const float mVperAmp[] =  { 					//changed to float because of 18.5mV/A for ACS7
 
 #define DEFAULT_ENABLE_EXT_TEMP   false
 
-
+#endif

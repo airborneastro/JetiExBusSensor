@@ -12,6 +12,10 @@
 /*
 
   ******************************************************************
+Karl
+this version is used for both ASW28 and Sharon. The difference is the pressure sensor:
+MS5611 for Sharon, MS5803 for ASW28.
+Set the version in defaults.h !
   Versionen:
 
   V2.2.1  26.03.18  Bugfix bei float<->int casting Smoothing Factor (by RS)
@@ -413,8 +417,11 @@ void setup()
 				   Serial.println(buf);
 			   }
 */
+//			   Serial.printf("Channel 7 %d ",  jetiEx.GetChannel(7));
+//			   Serial.println();
 			   if (jetiEx.GetChannel(7) > 9000) //read channel 7 (switch SE, motor ) = Servo channel 8, off = 8080
 				   motor_on = 1;
+
 			   else
 				   motor_on = 0;
 		   }
@@ -521,7 +528,6 @@ void setup()
 
 			   //Serial.printf("Current, mv/Amp %8.1f, %8.1f, %3d ", cuAmp, mVperAmp[currentSensor-1] , currentSensor-1);
 			   //Serial.println();
-
 			   jetiEx.SetSensorValue( ID_CURRENT, cuAmp*10);
 			   //Serial.printf("consumption %8.1f ",  capacityConsumption);
 			   //Serial.println();
